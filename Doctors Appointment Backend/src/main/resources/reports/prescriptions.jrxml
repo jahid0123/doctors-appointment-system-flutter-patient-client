@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="Final Prescription Report"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="555"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20"
+              uuid="954b19ab-78bd-4d27-8a53-72997e870f0c"
+              language="java">
+
+    <!-- Define Subdataset for Medicines -->
+    <subDataset name="medicineDataset" uuid="a1b2-c3d4-e5f6-7890-abcdef123456">
+        <field name="name" class="java.lang.String"/>
+        <field name="dosage" class="java.lang.String"/>
+        <field name="frequency" class="java.lang.String"/>
+        <field name="duration" class="java.lang.String"/>
+    </subDataset>
+
+    <!-- Define Java Bean Fields -->
+    <field name="doctor.doctorName" class="java.lang.String"/>
+    <field name="doctor.specialization" class="java.lang.String"/>
+    <field name="doctor.qualification" class="java.lang.String"/>
+    <field name="doctor.hospitalName" class="java.lang.String"/>
+    <field name="patient.name" class="java.lang.String"/>
+    <field name="patient.dateOfBirth" class="java.time.LocalDate"/>
+    <field name="dateIssued" class="java.time.LocalDate"/>
+    <field name="symptoms" class="java.lang.String"/>
+    <field name="diagnosis" class="java.lang.String"/>
+    <field name="medicines" class="java.util.List"/>
+
+    <title>
+        <band height="100">
+            <textField>
+                <reportElement x="0" y="0" width="200" height="20"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{doctor.doctorName}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="20" width="200" height="20"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{doctor.specialization}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="40" width="200" height="20"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{doctor.qualification}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="60" width="300" height="20"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{doctor.hospitalName}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <pageHeader>
+        <band height="50">
+            <staticText>
+                <reportElement x="0" y="0" width="50" height="20"/>
+                <textElement textAlignment="Left"/>
+                <text><![CDATA[Patient:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="60" y="0" width="200" height="20"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{patient.name}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="20" width="50" height="20"/>
+                <textElement textAlignment="Left"/>
+                <text><![CDATA[Date:]]></text>
+            </staticText>
+            <textField pattern="dd-MM-yyyy">
+                <reportElement x="60" y="20" width="200" height="20"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{dateIssued}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+
+    <detail>
+        <band height="60">
+            <staticText>
+                <reportElement x="0" y="0" width="100" height="20"/>
+                <textElement textAlignment="Left"/>
+                <text><![CDATA[Symptoms:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="110" y="0" width="445" height="20"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{symptoms}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="0" y="30" width="100" height="20"/>
+                <textElement textAlignment="Left"/>
+                <text><![CDATA[Diagnosis:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="110" y="30" width="445" height="20"/>
+                <textElement textAlignment="Left"/>
+                <textFieldExpression><![CDATA[$F{diagnosis}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <summary>
+        <band height="200">
+            <componentElement>
+                <reportElement x="0" y="0" width="555" height="200"/>
+                <jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components"
+                          xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+                    <datasetRun subDataset="medicineDataset">
+                        <dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{medicines})]]></dataSourceExpression>
+                    </datasetRun>
+                    <jr:column width="138">
+                        <jr:columnHeader height="20">
+                            <staticText>
+                                <reportElement x="0" y="0" width="138" height="20"/>
+                                <textElement textAlignment="Center"/>
+                                <text><![CDATA[Medicine Name]]></text>
+                            </staticText>
+                        </jr:columnHeader>
+                        <jr:detailCell height="20">
+                            <textField>
+                                <reportElement x="0" y="0" width="138" height="20"/>
+                                <textElement textAlignment="Left"/>
+                                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                    <jr:column width="139">
+                        <jr:columnHeader height="20">
+                            <staticText>
+                                <reportElement x="0" y="0" width="139" height="20"/>
+                                <textElement textAlignment="Center"/>
+                                <text><![CDATA[Dosage]]></text>
+                            </staticText>
+                        </jr:columnHeader>
+                        <jr:detailCell height="20">
+                            <textField>
+                                <reportElement x="0" y="0" width="139" height="20"/>
+                                <textElement textAlignment="Left"/>
+                                <textFieldExpression><![CDATA[$F{dosage}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                    <jr:column width="139">
+                        <jr:columnHeader height="20">
+                            <staticText>
+                                <reportElement x="0" y="0" width="139" height="20"/>
+                                <textElement textAlignment="Center"/>
+                                <text><![CDATA[Frequency]]></text>
+                            </staticText>
+                        </jr:columnHeader>
+                        <jr:detailCell height="20">
+                            <textField>
+                                <reportElement x="0" y="0" width="139" height="20"/>
+                                <textElement textAlignment="Left"/>
+                                <textFieldExpression><![CDATA[$F{frequency}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                    <jr:column width="139">
+                        <jr:columnHeader height="20">
+                            <staticText>
+                                <reportElement x="0" y="0" width="139" height="20"/>
+                                <textElement textAlignment="Center"/>
+                                <text><![CDATA[Duration]]></text>
+                            </staticText>
+                        </jr:columnHeader>
+                        <jr:detailCell height="20">
+                            <textField>
+                                <reportElement x="0" y="0" width="139" height="20"/>
+                                <textElement textAlignment="Left"/>
+                                <textFieldExpression><![CDATA[$F{duration}]]></textFieldExpression>
+                            </textField>
+                        </jr:detailCell>
+                    </jr:column>
+                </jr:table>
+            </componentElement>
+        </band>
+    </summary>
+
+</jasperReport>
